@@ -27,7 +27,10 @@ export type WorkCategory = (typeof WORK_CATEGORIES)[number];
 export interface Work {
   id: string;
   title: string;
+  /** 작업물 유형 (이전 분류. 화면 분류에는 area 를 쓴다) */
   category: WorkCategory;
+  /** 공통 카테고리 (data/areas.ts 의 name) */
+  area?: string;
   /** 확인된 경우에만 */
   year?: string;
   organization?: string;

@@ -68,6 +68,9 @@ const cover = object('cover', '대표 비주얼 (카드·첫 화면)', [
   str('alt', '이미지 커버: 설명'),
   str('ratio', '이미지 커버: 비율 (예: 16 / 10)'),
 ], { collapsed: true });
+// 공통 카테고리 (src/data/areas.ts 의 name 과 같아야 한다)
+const AREAS = ['Video & Content', 'Design & Branding', 'Digital & Web', 'B2B Marketing', 'Strategy & Research', 'AI & Creative'];
+const area = select('area', '카테고리', AREAS, { required: true, default: AREAS[0], hint: 'Works 갤러리와 홈의 카테고리 분류에 쓰입니다.' });
 const published = { name: 'published', label: '공개', widget: 'boolean', default: true, hint: '끄면 사이트에 나오지 않습니다.' };
 const order = { name: 'order', label: '노출 순서', widget: 'number', value_type: 'int', required: false, hint: '작을수록 앞에 나옵니다.' };
 
@@ -83,12 +86,13 @@ const config = {
   output: { omit_empty_optional_fields: true },
   collections: [
     {
-      name: 'works', label: 'Creative Archive', label_singular: '작업물', description: '직접 만든 작업물. 한 건이 갤러리의 카드 하나입니다.',
+      name: 'works', label: '작업물 (Works)', label_singular: '작업물', description: '직접 만든 작업물. 한 건이 Works 갤러리의 카드 하나입니다.',
       folder: `${prefix}content/works`, format: 'json', extension: 'json', create: true, delete: true, slug: 'work-{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}', identifier_field: 'title',
-      summary: '{{title}} — {{category}}', sortable_fields: ['order', 'title', 'category', 'year'], view_groups: [{ label: '유형', field: 'category' }, { label: '소속', field: 'organization' }], view_filters: [{ label: '홈 미리보기', field: 'featured', pattern: true }, { label: '숨김', field: 'publicationStatus', pattern: 'hidden' }],
+      summary: '{{title}} — {{area}}', sortable_fields: ['order', 'title', 'area', 'year'], view_groups: [{ label: '카테고리', field: 'area' }, { label: '유형', field: 'category' }, { label: '소속', field: 'organization' }], view_filters: [{ label: '홈 미리보기', field: 'featured', pattern: true }, { label: '숨김', field: 'publicationStatus', pattern: 'hidden' }],
       fields: [
         str('title', '작품 제목', { required: true }),
-        select('category', '카테고리', ['Video', 'Design', 'Web', 'Competition', 'Editorial'], { required: true, default: 'Design' }),
+        area,
+        select('category', '작업물 유형', ['Video', 'Design', 'Web', 'Competition', 'Editorial'], { required: true, default: 'Design' }),
         str('organization', '소속 (회사 이름 또는 개인 프로젝트)'), str('year', '제작 연도'), str('role', '담당 역할', { hint: '직접 한 일만 적습니다.' }),
         text('description', '작품 소개'), text('intent', '기획 의도'), text('process', '제작 과정'), text('result', '결과 및 성과', { hint: '확인된 것만 적습니다. 회사 비공개 수치는 적지 않습니다.' }),
         str('award', '수상 정보 (증빙이 확인된 것만)'), strings('tags', '태그'),
@@ -104,15 +108,16 @@ const config = {
     {
       name: 'projects', label: 'Projects', label_singular: '프로젝트', description: '대표 프로젝트. 파일 이름이 주소(/work/이름/)가 됩니다.',
       folder: `${prefix}content/projects`, format: 'json', extension: 'json', create: true, delete: true, slug: '{{fields.address}}', identifier_field: 'title',
-      summary: '{{order}}. {{title}} — {{organization}}', sortable_fields: ['order', 'title'], view_groups: [{ label: '홈 위치', field: 'placement' }], ...(site.url ? { preview_path: 'work/{{slug}}/' } : {}),
+      summary: '{{order}}. {{title}} — {{organization}}', sortable_fields: ['order', 'title'], view_groups: [{ label: '카테고리', field: 'area' }, { label: '홈 노출', field: 'placement' }], ...(site.url ? { preview_path: 'work/{{slug}}/' } : {}),
       fields: [
         str('title', '제목', { required: true }),
         // 새 프로젝트의 파일 이름(= 주소)을 정한다. 한글 제목만으로는 파일 이름을 만들 수 없어 따로 받는다.
         str('address', '주소 이름 (영문 소문자·숫자·하이픈)', { required: true, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', '영문 소문자, 숫자, 하이픈만 쓸 수 있습니다 (예: brand-film-2026).'], hint: '사이트 주소 /work/주소-이름/ 이 됩니다. 처음 만들 때 정하고 나중에 바꾸지 않습니다.' }),
         text('summary', '한 줄 설명', { required: true }),
-        str('category', '카테고리 문구'), select('filter', 'Work 목록 필터', ['Growth', 'Content', 'Web & Research', 'AI Lab'], { required: true, default: 'Content' }),
+        area, str('category', '세부 분야 문구 (상세 페이지에 표시)'),
+        { name: 'filter', label: '이전 분류 (사용하지 않음)', widget: 'hidden', default: 'Content' },
         str('period', '기간'), str('organization', '소속'), str('type', '유형 (개인 프로젝트일 때)'), str('status', '상태'),
-        select('placement', '홈에서의 위치', [{ label: 'Selected Work', value: 'selected' }, { label: 'More Work', value: 'more' }, { label: 'AI Lab', value: 'lab' }], { required: true, default: 'more' }),
+        select('placement', '홈 노출', [{ label: '홈 대표 프로젝트 (앞에서 4개까지)', value: 'selected' }, { label: 'Works 에만 표시', value: 'more' }, { label: 'Works 에만 표시 (개인 프로젝트)', value: 'lab' }], { required: true, default: 'more' }),
         order, published, cover,
         select('header', '상세 첫 화면 배치', [{ label: '넓게', value: 'wide' }, { label: '글과 커버 좌우', value: 'split' }]), select('theme', '테마', [{ label: '다크', value: 'dark' }]),
         list('scope', '역할 (성격별)', [str('label', '구분 (기획·제작·검수·운영 등)'), strings('items', '한 일')], { hint: '직접 한 일과 협업·지원한 일을 섞지 않습니다.' }),
@@ -178,8 +183,8 @@ table{width:100%;border-collapse:collapse;font-size:.9375rem}td{padding:.6rem .5
 <p class="muted">${esc(site.name)}</p><h1>Studio</h1>
 <p class="note">${repo ? `저장 위치: GitHub 저장소 <code>${esc(repo)}</code> (${esc(config.backend.branch)} 브랜치). 편집하려면 로그인해야 합니다.` : '지금은 <b>연습용 저장소</b>에 연결돼 있습니다. 편집기에서 저장해도 실제 사이트는 바뀌지 않습니다.'}</p>
 <ul class="stats">${stat(projects.length, '프로젝트')}${stat(works.length, '작업물')}${stat(projects.length + works.length - hiddenCount, '공개 콘텐츠')}${stat(hiddenCount, '비공개 콘텐츠')}${stat(mediaFiles.length, '미디어 파일')}</ul>
-<div class="actions"><a class="btn main" href="cms/#/collections/works/new">새 작업물 추가</a><a class="btn" href="cms/#/collections/works">Creative Archive</a><a class="btn" href="cms/#/collections/projects">Projects</a><a class="btn" href="cms/#/assets">Media Library</a><a class="btn" href="cms/#/collections/settings">Settings</a><a class="btn" href="../">사이트 보기</a></div>
-<h2>최근 수정</h2><table>${recent.map((e) => `<tr><td><a href="cms/#/collections/${e.col}/entries/${encodeURIComponent(e.name)}">${esc(e.title)}</a>${e.shown ? '' : '<span class="tag">비공개</span>'}<br><span class="muted">${e.col === 'works' ? 'Creative Archive' : 'Projects'}</span></td><td>${e.date}</td></tr>`).join('')}</table>
+<div class="actions"><a class="btn main" href="cms/#/collections/works/new">새 작업물 추가</a><a class="btn" href="cms/#/collections/works">작업물</a><a class="btn" href="cms/#/collections/projects">Projects</a><a class="btn" href="cms/#/assets">Media Library</a><a class="btn" href="cms/#/collections/settings">Settings</a><a class="btn" href="../">사이트 보기</a></div>
+<h2>최근 수정</h2><table>${recent.map((e) => `<tr><td><a href="cms/#/collections/${e.col}/entries/${encodeURIComponent(e.name)}">${esc(e.title)}</a>${e.shown ? '' : '<span class="tag">비공개</span>'}<br><span class="muted">${e.col === 'works' ? '작업물' : 'Projects'}</span></td><td>${e.date}</td></tr>`).join('')}</table>
 <h2>쓰이지 않는 미디어 파일 (${unused.length})</h2>${unused.length ? `<table>${unused.map((f) => `<tr><td><code>${esc(f)}</code></td><td>미사용</td></tr>`).join('')}</table>` : '<p class="muted">없습니다.</p>'}
 <p class="muted" style="margin-top:3rem">이 현황판은 사이트를 빌드할 때 만들어집니다. 편집기에서 저장한 내용은 다음 빌드 뒤에 반영됩니다.</p>
 </main></body></html>

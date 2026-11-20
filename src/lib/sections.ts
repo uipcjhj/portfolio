@@ -1,7 +1,4 @@
-import { createContext, useEffect } from 'react';
-
-/** 메인 페이지에서 지금 보고 있는 영역을 헤더에 알려 주는 통로 */
-export const ActiveSectionContext = createContext<(id: string | null) => void>(() => {});
+import { useEffect } from 'react';
 
 /** 화면 가운데 선에 걸친 영역의 id 를 알려 준다. */
 export function useSectionSpy(ids: readonly string[], onChange: (id: string | null) => void) {

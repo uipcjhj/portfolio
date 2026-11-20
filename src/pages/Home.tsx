@@ -1,31 +1,19 @@
-import { useContext } from 'react';
-import { NAV } from '../components/Header';
-import { ActiveSectionContext, useSectionSpy } from '../lib/sections';
 import { usePage } from '../lib/usePage';
-import { AboutPreview } from '../sections/AboutPreview';
-import { Archive } from '../sections/Archive';
-import { Capabilities, HowIWork } from '../sections/Capabilities';
 import { Contact } from '../sections/Contact';
+import { FeaturedProjects } from '../sections/FeaturedProjects';
 import { Hero } from '../sections/Hero';
-import { Highlights } from '../sections/Highlights';
-import { Lab } from '../sections/Lab';
-import { SelectedWork } from '../sections/SelectedWork';
+import { ResumeSnapshot } from '../sections/ResumeSnapshot';
+import { WorkCategories } from '../sections/WorkCategories';
 
-const SECTION_IDS = NAV.map((n) => n.id);
-
+/** 홈: 누구인지(Hero) → 어떤 경력인지 → 어떤 분야의 일을 하는지 → 무엇을 만들었는지 → 연락처 */
 export default function Home() {
   usePage();
-  useSectionSpy(SECTION_IDS, useContext(ActiveSectionContext));
   return (
     <>
       <Hero />
-      <Highlights />
-      <SelectedWork />
-      <Lab />
-      <Archive />
-      <AboutPreview />
-      <Capabilities />
-      <HowIWork />
+      <ResumeSnapshot />
+      <WorkCategories />
+      <FeaturedProjects />
       <Contact />
     </>
   );

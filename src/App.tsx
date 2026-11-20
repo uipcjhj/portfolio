@@ -1,18 +1,15 @@
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
-import { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
-import { ActiveSectionContext } from './lib/sections';
-import ArchivePage from './pages/ArchivePage';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import ProjectDetail from './pages/ProjectDetail';
-import WorkIndex from './pages/WorkIndex';
+import Resume from './pages/Resume';
+import Works from './pages/Works';
 
 export default function App() {
   const location = useLocation();
-  const [active, setActive] = useState<string | null>(null);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -23,8 +20,7 @@ export default function App() {
         >
           본문으로 건너뛰기
         </a>
-        <Header active={active} />
-        <ActiveSectionContext.Provider value={setActive}>
+        <Header />
           {/* 페이지 전환: 이전 화면이 사라진 뒤 다음 화면이 올라온다 */}
           <AnimatePresence mode="wait" initial={false}>
             <motion.main
@@ -39,14 +35,15 @@ export default function App() {
             >
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
-                <Route path="/work" element={<WorkIndex />} />
-                <Route path="/archive" element={<ArchivePage />} />
+                <Route path="/work" element={<Works />} />
+                <Route path="/resume" element={<Resume />} />
+                {/* 예전 주소. 같은 갤러리를 연다 */}
+                <Route path="/archive" element={<Works />} />
                 <Route path="/work/:slug" element={<ProjectDetail />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </motion.main>
           </AnimatePresence>
-        </ActiveSectionContext.Provider>
         <Footer />
       </div>
     </MotionConfig>

@@ -1,17 +1,16 @@
 import { Link, useLocation } from 'react-router';
 import { site } from '../data/site';
 
-export const NAV = [
-  { id: 'about', label: 'About' },
-  { id: 'work', label: 'Work' },
-  { id: 'ai-lab', label: 'AI Lab' },
-  { id: 'archive', label: 'Archive' },
-  { id: 'contact', label: 'Contact' },
+const NAV = [
+  { to: '/', label: 'Home' },
+  { to: '/resume/', label: 'Resume' },
+  { to: '/work/', label: 'Works' },
 ];
 
-export function Header({ active }: { active: string | null }) {
+export function Header() {
   const { pathname } = useLocation();
-  const onWork = pathname.startsWith('/work');
+  // 예전 주소(/archive)도 Works 로 표시한다
+  const isCurrent = (to: string) => (to === '/' ? pathname === '/' : pathname.startsWith(to.replace(/\/$/, '')) || (to === '/work/' && pathname.startsWith('/archive')));
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-bg/85 backdrop-blur-md transition-colors duration-700 [-webkit-backdrop-filter:blur(12px)]">
@@ -20,17 +19,15 @@ export function Header({ active }: { active: string | null }) {
           {site.wordmark}
         </Link>
         <nav aria-label="주요 메뉴">
-          <ul className="flex items-center text-[0.8125rem] font-medium min-[400px]:gap-1 min-[400px]:text-[0.9375rem] sm:gap-3">
+          <ul className="flex items-center gap-1 text-[0.9375rem] font-medium sm:gap-3">
             {NAV.map((item) => {
-              const current = pathname === '/' ? active === item.id : (onWork && item.id === 'work') || (pathname.startsWith('/archive') && item.id === 'archive');
+              const current = isCurrent(item.to);
               return (
-                <li key={item.id}>
+                <li key={item.to}>
                   <Link
-                    to={{ pathname: '/', hash: `#${item.id}` }}
-                    aria-current={current ? 'true' : undefined}
-                    className={`block px-1 py-1.5 whitespace-nowrap transition-colors duration-300 min-[400px]:px-2 sm:px-2.5 ${
-                      current ? 'bg-accent text-ink' : 'hover:bg-wash'
-                    }`}
+                    to={item.to}
+                    aria-current={current ? 'page' : undefined}
+                    className={`block px-2.5 py-1.5 whitespace-nowrap transition-colors duration-300 ${current ? 'bg-accent text-ink' : 'hover:bg-wash'}`}
                   >
                     {item.label}
                   </Link>

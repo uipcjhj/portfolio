@@ -2,6 +2,7 @@
   "title": "Global Opportunity Radar",
   "address": "global-opportunity-radar",
   "category": "AI Automation / Market Intelligence",
+  "area": "AI & Creative",
   "filter": "AI Lab",
   "period": "2026",
   "type": "Personal AI Project",
@@ -17,7 +18,7 @@
     "tone": "signal",
     "motif": "radar"
   },
-  "placement": "lab",
+  "placement": "selected",
   "theme": "dark",
   "scope": [
     {

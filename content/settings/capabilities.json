@@ -3,43 +3,41 @@
     {
       "en": "Digital Marketing",
       "ko": "글로벌 SNS 채널 운영 및 성장 전략",
-      "to": "/work/b2b-digital-marketing/"
+      "to": "/work/?category=b2b-marketing"
     },
     {
-      "en": "Content Marketing",
-      "ko": "YouTube·Instagram 콘텐츠 기획·발행·성과 분석",
-      "to": "/work/youtube-social-growth/"
+      "en": "Content & Video Production",
+      "ko": "콘텐츠 기획·발행, 영상 기획·촬영·편집",
+      "to": "/work/?category=video-content"
     },
     {
-      "en": "Video Production",
-      "ko": "영상 기획·촬영·편집, 제품 영상 기획 및 검수",
-      "to": "/work/product-storytelling/"
-    },
-    {
-      "en": "Brand & Graphic Design",
+      "en": "Branding & Design",
       "ko": "광고·인쇄물·상세페이지·웹디자인",
-      "to": "/work/brand-content-design/"
+      "to": "/work/?category=design-branding"
     },
     {
-      "en": "Global Exhibition",
+      "en": "B2B Communication",
       "ko": "B2B 브랜드 콘텐츠 및 전시 홍보",
-      "to": "/work/global-exhibition-marketing/"
+      "to": "/work/?category=b2b-marketing"
     },
     {
-      "en": "Website & SEO",
-      "ko": "홈페이지·SEO·뉴스레터·디지털 콘텐츠",
-      "to": "/work/website-seo/"
-    },
-    {
-      "en": "Market Intelligence",
+      "en": "Strategy & Research",
       "ko": "시장·경쟁사 동향 분석",
-      "to": "/work/market-intelligence/"
+      "to": "/work/?category=strategy-research"
     },
     {
-      "en": "AI Automation",
+      "en": "AI-driven Workflow",
       "ko": "AI 기반 마케팅 업무 자동화 도구 기획 및 구현",
-      "to": "/work/global-opportunity-radar/"
+      "to": "/work/?category=ai-creative"
     }
   ],
-  "tools": []
+  "tools": [
+    "Photoshop",
+    "Illustrator",
+    "Premiere Pro",
+    "After Effects",
+    "PowerPoint",
+    "Excel",
+    "Claude Code"
+  ]
 }

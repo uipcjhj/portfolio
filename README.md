@@ -18,12 +18,16 @@ npm run preview  # 빌드 결과 미리보기
 
 | 주소 | 내용 |
 | --- | --- |
-| `/` | Hero → Career Highlights(3) → Selected Work(4) → More Work(4) → AI Lab(2, 다크 전환) → Creative Archive → About·Experience → Capabilities → How I Work → Contact |
+| `/` | Hero → Experience & Expertise(이력 요약) → Explore My Work(카테고리 6개) → Selected Projects(대표 4개) → Contact |
+| `/resume/` | 프로필, 경력, 담당 업무, 핵심 역량, 사용 도구 |
+| `/work/` | Works 갤러리: 대표 프로젝트와 작업물을 한 곳에서. 카테고리 필터(`?category=b2b-marketing`), 작업물 상세 창(`?work=<id>`) |
+| `/work/<slug>/` | 프로젝트 상세: Hero → Key Information → Featured Results → Process → Outcome (내용이 있는 영역만) |
+| `/archive/` | 예전 주소. Works 갤러리를 그대로 연다 |
 | `/admin/` | 관리자 현황판과 편집기 (검색엔진 색인 제외) |
-| `/archive/` | Creative Archive 갤러리: 유형 필터(`?category=Video`), 작업물 상세 창(`?work=<id>`) |
-| `/work/` | 전체 프로젝트 10개 + 카테고리 필터 (`?category=Growth` 처럼 주소에 남음) |
-| `/work/<slug>/` | 상세: Hero → Key Information → Featured Results → Process → Outcome (내용이 있는 영역만) |
 | 그 외 | 404 안내 |
+
+**카테고리**: 프로젝트와 작업물은 같은 여섯 카테고리(`src/data/areas.ts`)를 쓴다. 관리자 화면에서 항목마다 "카테고리"를 고르면 Works 와 홈에 반영된다.
+**홈 대표 프로젝트**: 프로젝트의 "홈 노출"을 "홈 대표 프로젝트"로 지정한 것 중 노출 순서가 빠른 4개.
 
 ## 내용 고치기 — 관리자 화면 또는 `content/` 의 JSON
 

@@ -33,7 +33,7 @@ export function WorkModal({ work, onClose }: { work: Work | null; onClose: () =>
     setBroken(false);
   };
   const facts = [
-    ['Type', work.category],
+    ['Category', work.area ?? work.category],
     ['Year', work.year],
     ['Organization', work.organization],
     ['Role', work.role],
@@ -56,7 +56,7 @@ export function WorkModal({ work, onClose }: { work: Work | null; onClose: () =>
     >
       <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-rule bg-bg px-4 py-2.5 sm:px-6">
         <p className="meta text-muted">
-          {work.category}
+          {work.area ?? work.category}
           {many && (
             <span className="ml-3 text-fg" aria-live="polite">
               {index + 1} / {media.length}

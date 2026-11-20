@@ -2,6 +2,7 @@
   "title": "B2B Digital Marketing & Growth",
   "address": "b2b-digital-marketing",
   "category": "Digital Strategy / Growth",
+  "area": "B2B Marketing",
   "filter": "Growth",
   "period": "2025–2026",
   "organization": "HYUNDAI MOVEX",
@@ -17,7 +18,7 @@
     "tone": "ink"
   },
   "header": "split",
-  "placement": "selected",
+  "placement": "more",
   "scope": [
     {
       "label": "운영",

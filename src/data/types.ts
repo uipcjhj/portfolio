@@ -91,6 +91,8 @@ export type Block =
 
 export interface Project {
   slug: string;
+  /** 공통 카테고리 (data/areas.ts 의 name). Works 갤러리의 분류에 쓴다. */
+  area?: string;
   /** 노출 순서 (작을수록 앞). 사이트의 프로젝트 번호가 된다. */
   order?: number;
   /** false 면 사이트에 나오지 않는다 */

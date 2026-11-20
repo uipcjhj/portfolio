@@ -85,7 +85,7 @@ export default function ProjectDetail() {
     <article className="shell pt-8 pb-20 md:pt-12 md:pb-32">
       <p className="meta flex items-baseline justify-between gap-4">
         <Link to="/work/" className="link">
-          All projects
+          All works
         </Link>
         <span className="text-muted">
           {num(index)} / {num(projects.length - 1)}

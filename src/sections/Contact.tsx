@@ -13,7 +13,7 @@ export function Contact() {
   ].filter((l) => l.href);
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="shell py-14 md:py-32">
+    <section id="contact" aria-labelledby="contact-title" className="shell py-16 md:py-28">
       <h2 id="contact-title" className="border-t border-fg pt-5 text-display leading-[0.95] font-bold tracking-[-0.05em]">
         Let’s make
         <br />
