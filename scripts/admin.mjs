@@ -69,7 +69,7 @@ const cover = object('cover', '대표 비주얼 (카드·첫 화면)', [
   str('ratio', '이미지 커버: 비율 (예: 16 / 10)'),
 ], { collapsed: true });
 // 공통 카테고리 (src/data/areas.ts 의 name 과 같아야 한다)
-const AREAS = ['Video & Content', 'Design & Branding', 'Digital & Web', 'B2B Marketing', 'Strategy & Research', 'AI & Creative'];
+const AREAS = ['Video & Motion', 'Design & Branding', 'Digital & Web', 'B2B Marketing', 'Strategy & Research', 'Editorial & PR', 'AI & Creative'];
 const area = select('area', '카테고리', AREAS, { required: true, default: AREAS[0], hint: 'Works 갤러리와 홈의 카테고리 분류에 쓰입니다.' });
 const published = { name: 'published', label: '공개', widget: 'boolean', default: true, hint: '끄면 사이트에 나오지 않습니다.' };
 const order = { name: 'order', label: '노출 순서', widget: 'number', value_type: 'int', required: false, hint: '작을수록 앞에 나옵니다.' };

@@ -19,7 +19,8 @@ interface Props {
 
 /**
  * Works 갤러리 카드. 모든 카드의 비율은 16:10 으로 같다.
- * 실제 썸네일이 있으면 이미지로, 없거나 불러오지 못하면 제목만 적은 타이포그래피 카드로 그린다.
+ * 프로젝트와 썸네일이 있는 작업물에 쓴다 (이미지 없는 작업물은 Works 의 글 목록에 나온다).
+ * 썸네일을 불러오지 못하면 제목만 적은 카드로 바뀐다.
  */
 export function GalleryCard({ item, onOpen, showArea = true, priority = false }: Props) {
   const [failed, setFailed] = useState(false);
@@ -33,7 +34,7 @@ export function GalleryCard({ item, onOpen, showArea = true, priority = false }:
       <span className="line-clamp-2 block leading-snug font-semibold tracking-[-0.01em]">
         <span className={TITLE}>{item.title}</span>
       </span>
-      <MetaLine items={[showArea ? item.area : undefined, item.organization]} className="mt-1.5" />
+      <MetaLine items={[showArea ? item.area : undefined, item.organization, ...(item.tags ?? [])]} className="mt-1.5" />
     </span>
   );
 
@@ -74,7 +75,7 @@ export function GalleryCard({ item, onOpen, showArea = true, priority = false }:
         </span>
       )}
       {/* 타이포그래피 카드는 제목이 이미 크게 있으므로 아래에는 분류만 적는다 */}
-      {thumb ? caption : <MetaLine items={[showArea ? item.area : undefined, item.organization]} className="mt-3" />}
+      {thumb ? caption : <MetaLine items={[showArea ? item.area : undefined, item.organization, ...(item.tags ?? [])]} className="mt-3" />}
     </button>
   );
 }

@@ -9,6 +9,8 @@ export interface GalleryItem {
   title: string;
   area: AreaName;
   organization?: string;
+  /** 짧은 표시용 태그 (예: 공모전) */
+  tags?: string[];
   /** 실제 이미지·영상 썸네일 주소 (없으면 타이포그래피 카드) */
   thumb?: string;
   project?: Project;
@@ -32,11 +34,18 @@ const workItems: GalleryItem[] = works.map((w) => ({
   title: w.title,
   area: areaOf(w.area),
   organization: w.organization,
+  tags: w.tags,
   thumb: thumbnailOf(w),
   work: w,
 }));
 
 /** 순서: 대표 프로젝트 → 썸네일이 있는 작업물 → 나머지 */
 export const gallery: GalleryItem[] = [...projectItems, ...workItems.filter((i) => i.thumb), ...workItems.filter((i) => !i.thumb)];
+
+/**
+ * 큰 카드로 보여 줄 항목인지. 대표 프로젝트(전용 커버가 있다)와 실제 이미지·영상이 있는 작업물이 해당한다.
+ * 나머지는 글 목록으로 보여 주고, 관리자 화면에서 이미지를 등록하면 자동으로 큰 카드가 된다.
+ */
+export const isVisual = (item: GalleryItem) => Boolean(item.project || item.thumb);
 
 export const itemsIn = (area: AreaName) => gallery.filter((i) => i.area === area);

@@ -5,7 +5,7 @@ import { asset } from '../lib/asset';
 
 const featuredThumbs = new Set(gallery.filter((i) => i.project?.placement === 'selected').map((i) => i.thumb));
 
-/** 홈의 카테고리 여섯 칸. 누르면 Works 가 그 카테고리로 열린다. */
+/** 홈의 카테고리 칸. 누르면 Works 가 그 카테고리로 열린다. */
 export function WorkCategories() {
   return (
     <section id="work" aria-labelledby="categories-title" className="shell py-16 md:py-28">
@@ -13,7 +13,7 @@ export function WorkCategories() {
         Explore My Work.
       </h2>
 
-      <ul className="mt-10 grid gap-x-8 sm:grid-cols-2 md:mt-16 lg:grid-cols-3">
+      <ul className="mt-10 grid gap-x-8 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
         {AREAS.map((area) => {
           const items = itemsIn(area.name);
           // 홈의 대표 프로젝트와 같은 그림이 반복되지 않도록, 대표 프로젝트 커버로 쓰이지 않은 썸네일을 먼저 고른다
@@ -32,13 +32,13 @@ export function WorkCategories() {
                       className="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
                     />
                   ) : (
-                    <span aria-hidden="true" className="absolute right-3 bottom-1 font-mono text-[2.5rem] leading-none font-medium tracking-[-0.06em] text-muted/50 sm:right-5 sm:bottom-3 sm:text-[5.5rem]">
+                    <span aria-hidden="true" className="absolute right-3 bottom-1 font-mono text-[2.5rem] leading-none font-medium tracking-[-0.06em] text-muted/50 sm:right-4 sm:bottom-2 sm:text-[4.5rem]">
                       {String(items.length).padStart(2, '0')}
                     </span>
                   )}
                 </span>
                 <span className="col-start-1 row-start-1 flex items-baseline justify-between gap-4">
-                  <span className="text-[1.375rem] leading-tight font-bold tracking-[-0.03em] sm:text-2xl">
+                  <span className="text-[1.375rem] leading-tight font-bold tracking-[-0.03em] sm:text-[1.3125rem] xl:text-2xl">
                     <span className="bg-[linear-gradient(#c8ff5f,#c8ff5f)] bg-[length:0%_100%] bg-no-repeat transition-[background-size,color] duration-500 ease-out-soft group-hover:bg-[length:100%_100%] group-hover:text-ink">
                       {area.name}
                     </span>

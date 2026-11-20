@@ -18,7 +18,7 @@
     "tone": "ink"
   },
   "header": "split",
-  "placement": "more",
+  "placement": "selected",
   "scope": [
     {
       "label": "운영",

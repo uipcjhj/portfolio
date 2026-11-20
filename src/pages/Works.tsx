@@ -4,7 +4,8 @@ import { useSearchParams } from 'react-router';
 import { GalleryCard } from '../components/GalleryCard';
 import { WorkModal } from '../components/WorkModal';
 import { AREAS, areaBySlug, type AreaSlug } from '../data/areas';
-import { gallery, itemsIn } from '../data/gallery';
+import { gallery, isVisual, itemsIn } from '../data/gallery';
+import { MetaLine } from '../components/MetaLine';
 import { works } from '../data/works';
 import { usePage } from '../lib/usePage';
 
@@ -46,6 +47,8 @@ export default function Works() {
 
   const area = areaBySlug(filter);
   const list = area ? itemsIn(area.name) : gallery;
+  const visual = list.filter(isVisual);
+  const textual = list.filter((i) => !isVisual(i));
   const open = works.find((w) => w.id === openId) ?? null;
 
   return (
@@ -75,22 +78,54 @@ export default function Works() {
         {list.length} works
       </p>
 
-      <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-6 md:mt-8 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14 max-[359px]:grid-cols-1">
-        <AnimatePresence mode="popLayout" initial={false}>
-          {list.map((item, i) => (
-            <motion.li
-              key={item.key}
-              layout
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
-            >
-              <GalleryCard item={item} showArea={!area} priority={i < 3} onOpen={() => item.work && update({ work: item.work.id })} />
-            </motion.li>
-          ))}
-        </AnimatePresence>
-      </ul>
+      {/* 실제 이미지·영상이 있는 것은 큰 카드로 */}
+      {visual.length > 0 && (
+        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-6 md:mt-8 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14 max-[359px]:grid-cols-1">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visual.map((item, i) => (
+              <motion.li
+                key={item.key}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
+              >
+                <GalleryCard item={item} showArea={!area} priority={i < 3} onOpen={() => item.work && update({ work: item.work.id })} />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
+      )}
+
+      {/* 이미지가 없는 작업물은 간결한 목록으로. 관리자 화면에서 이미지를 등록하면 위의 카드로 올라간다. */}
+      {textual.length > 0 && (
+        <section aria-labelledby="more-works-title" className={visual.length > 0 ? 'mt-16 md:mt-24' : 'mt-6 md:mt-8'}>
+          <h2 id="more-works-title" className="flex items-baseline justify-between gap-4 border-t border-fg pt-4 text-[0.9375rem] font-semibold">
+            More works
+            <span className="meta font-normal text-muted">{textual.length}</span>
+          </h2>
+          <ul className="mt-2 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+            {textual.map((item) => (
+              <li key={item.key} className="border-b border-rule">
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  onClick={() => update({ work: item.work!.id })}
+                  className="group block w-full cursor-pointer py-3.5 text-left"
+                >
+                  <span className="block leading-snug font-semibold tracking-[-0.01em]">
+                    <span className="bg-[linear-gradient(#c8ff5f,#c8ff5f)] bg-[length:0%_100%] bg-no-repeat transition-[background-size,color] duration-500 ease-out-soft group-hover:bg-[length:100%_100%] group-hover:text-ink">
+                      {item.title}
+                    </span>
+                  </span>
+                  <MetaLine items={[area ? undefined : item.area, item.organization, ...(item.tags ?? [])]} className="mt-1" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <WorkModal work={open} onClose={() => update({ work: null })} />
     </div>
